@@ -86,14 +86,63 @@ class SinglyLinkedList<T>{
     get(index: number){
         if(index >= this.length || index < 0 ) return -1;
         let counter = 0;
-        let current = this.head;
+        let current = this.head!;
         while(counter !== index){
-            current = current!.next;
+            current = current.next!;
             counter++;
         }
         return current;
     }
 
+    set(val: T, index: number){
+        const node = this.get(index);
+        if(node === -1) return false;
+        node.val = val;
+        return true;
+    }
+
+    insert(val: T, index: number){
+        if(this.length < index || index < 0) return false;
+        if(index === 0) this.unshift(val);
+        else if(this.length === index) this.push(val);
+        else {
+            const newNode = new Node<T>(val);
+            const prevNode = this.get(index-1) as Node<T>;
+            const nextNode = prevNode.next;
+            prevNode.next = newNode;
+            newNode.next = nextNode;
+            this.length++;
+        }
+        return true;
+    }
+
+    remove(index: number){
+        if(this.length <= index || index < 0) return;
+        if(index === 0) return this.shift();
+        if(this.length - 1 === index) return this.pop();
+        const prevNode = this.get(index-1) as Node<T>;
+        const nextNode = prevNode.next as Node<T>;
+        prevNode.next = nextNode?.next;
+        this.length--;
+        return nextNode;
+    }
+
+    reverse(){
+        let node = this.head;
+        this.head = this.tail;
+        this.tail = node;
+        let prev: null | Node<T> = null ;
+        let next: Node<T> | undefined;
+        for(let i = 0 ; i < this.length ; i++){
+            next = node?.next as Node<T>;
+            node!.next = prev;
+            prev = node;
+            node = next;
+        }
+        return this;
+
+    }
+   
     getTail(){
         return this.tail;
     }
@@ -105,29 +154,4 @@ class SinglyLinkedList<T>{
 
 }
 
-// Test
-const namesLinkedlist = new SinglyLinkedList<string>();
-console.log(namesLinkedlist.getLength());
-console.log(namesLinkedlist.getTail());
-namesLinkedlist.push("ahmed");
-// console.log(namesLinkedlist.getLength());
-console.log(namesLinkedlist.getHead());
-console.log(namesLinkedlist.getTail());
-namesLinkedlist.push("Omar");
-console.log("linked list");
-console.log(namesLinkedlist);
-// console.log(namesLinkedlist.getLength());
-// console.log(namesLinkedlist.getHead());
-console.log(namesLinkedlist.pop());
-// console.log("linked list");
-// console.log(namesLinkedlist);
-// console.log(namesLinkedlist.pop());
-// console.log("linked list");
-// console.log(namesLinkedlist);
-console.log(namesLinkedlist.get(0));
-console.log(namesLinkedlist.get(13));
-
-// console.log(namesLinkedlist.getHead());
-// console.log(namesLinkedlist.pop());
-// console.log(namesLinkedlist.getHead());
-
+export default SinglyLinkedList;

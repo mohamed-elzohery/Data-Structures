@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class Node {
     constructor(val) {
         this.val = val;
@@ -81,6 +82,57 @@ class SinglyLinkedList {
         }
         return current;
     }
+    set(val, index) {
+        const node = this.get(index);
+        if (node === -1)
+            return false;
+        node.val = val;
+        return true;
+    }
+    insert(val, index) {
+        if (this.length < index || index < 0)
+            return false;
+        if (index === 0)
+            this.unshift(val);
+        else if (this.length === index)
+            this.push(val);
+        else {
+            const newNode = new Node(val);
+            const prevNode = this.get(index - 1);
+            const nextNode = prevNode.next;
+            prevNode.next = newNode;
+            newNode.next = nextNode;
+            this.length++;
+        }
+        return true;
+    }
+    remove(index) {
+        if (this.length <= index || index < 0)
+            return;
+        if (index === 0)
+            return this.shift();
+        if (this.length - 1 === index)
+            return this.pop();
+        const prevNode = this.get(index - 1);
+        const nextNode = prevNode.next;
+        prevNode.next = nextNode === null || nextNode === void 0 ? void 0 : nextNode.next;
+        this.length--;
+        return nextNode;
+    }
+    reverse() {
+        let node = this.head;
+        this.head = this.tail;
+        this.tail = node;
+        let prev = null;
+        let next;
+        for (let i = 0; i < this.length; i++) {
+            next = node === null || node === void 0 ? void 0 : node.next;
+            node.next = prev;
+            prev = node;
+            node = next;
+        }
+        return this;
+    }
     getTail() {
         return this.tail;
     }
@@ -88,27 +140,4 @@ class SinglyLinkedList {
         return this.head;
     }
 }
-// Test
-const namesLinkedlist = new SinglyLinkedList();
-console.log(namesLinkedlist.getLength());
-console.log(namesLinkedlist.getTail());
-namesLinkedlist.push("ahmed");
-// console.log(namesLinkedlist.getLength());
-console.log(namesLinkedlist.getHead());
-console.log(namesLinkedlist.getTail());
-namesLinkedlist.push("Omar");
-console.log("linked list");
-console.log(namesLinkedlist);
-// console.log(namesLinkedlist.getLength());
-// console.log(namesLinkedlist.getHead());
-console.log(namesLinkedlist.pop());
-// console.log("linked list");
-// console.log(namesLinkedlist);
-// console.log(namesLinkedlist.pop());
-// console.log("linked list");
-// console.log(namesLinkedlist);
-console.log(namesLinkedlist.get(0));
-console.log(namesLinkedlist.get(13));
-// console.log(namesLinkedlist.getHead());
-// console.log(namesLinkedlist.pop());
-// console.log(namesLinkedlist.getHead());
+exports.default = SinglyLinkedList;
