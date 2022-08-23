@@ -131,7 +131,7 @@ class SinglyLinkedList<T>{
         let node = this.head;
         this.head = this.tail;
         this.tail = node;
-        let prev: null | Node<T> = null ;
+        let prev: null | Node<T> = null;
         let next: Node<T> | undefined;
         for(let i = 0 ; i < this.length ; i++){
             next = node?.next as Node<T>;
