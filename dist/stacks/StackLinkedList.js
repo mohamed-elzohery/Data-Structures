@@ -21,12 +21,13 @@ class StackLinkedList {
             return null;
         if (this.first === this.last)
             this.last = null;
+        const temp = this.first;
         this.first = this.first.next;
         this.size--;
-        return this.first;
+        return temp.val;
     }
     peek() {
-        return this.first;
+        return this.first ? this.first.val : null;
     }
     isEmpty() {
         return !this.first;

@@ -19,17 +19,20 @@ class StackLinkedList<T> {
         return ++this.size;
     }
 
-    pop(): Node<T> | null {
+    pop(): T | null {
         if(this.first === null) return null;
         if(this.first === this.last) this.last = null;
+        const temp = this.first;
         this.first = this.first.next;
         this.size--;
-        return this.first;
+        return temp.val;
     }
 
-    peek(): Node<T> | null {
-        return this.first;
+    
+    peek(): T | null {
+        return this.first ? this.first.val : null;
     }
+
 
     isEmpty(): boolean {
         return !this.first;
